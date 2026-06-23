@@ -1,0 +1,60 @@
+.smak-wrap { max-width: 780px; }
+
+.smak-header { margin-bottom: 1.5rem; }
+.smak-header h1 { font-size: 22px; font-weight: 500; margin: 4px 0 0; }
+.smak-version { font-size: 12px; color: #888; margin: 0; }
+
+.smak-status-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 2rem; }
+.smak-status-card { background: #f9f9f9; border: 1px solid #e5e5e5; border-radius: 6px; padding: 1rem; }
+.smak-status-label { font-size: 12px; color: #888; margin: 0 0 4px; }
+.smak-status-value { font-size: 14px; font-weight: 500; margin: 0; }
+.smak-status-value.active { color: #1d9e75; }
+.smak-status-value.inactive { color: #999; }
+
+.smak-section { background: #fff; border: 1px solid #e5e5e5; border-radius: 8px; padding: 1.25rem; margin-bottom: 1rem; }
+.smak-section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+.smak-section-header h2 { font-size: 15px; font-weight: 500; margin: 0; display: flex; align-items: center; gap: 8px; }
+.smak-desc { font-size: 13px; color: #666; margin: 0 0 1rem; }
+.smak-desc code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+
+.smak-badge { font-size: 11px; font-weight: 400; background: #e8f0fe; color: #1a56db; padding: 2px 8px; border-radius: 4px; }
+.smak-optional { font-size: 12px; color: #999; font-weight: 400; }
+.smak-preview-link { font-size: 13px; color: #1a56db; text-decoration: none; }
+.smak-preview-link:hover { text-decoration: underline; }
+
+.smak-toggle { display: flex; align-items: center; gap: 6px; font-size: 13px; color: #555; cursor: pointer; font-weight: 400; }
+
+.smak-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.smak-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.smak-grid-2 label,
+.smak-grid-3 label { display: block; font-size: 13px; color: #555; margin-bottom: 6px; }
+.smak-grid-2 select,
+.smak-grid-3 select { width: 100%; }
+.smak-input-wide { width: 100%; box-sizing: border-box; }
+.smak-label-gap { height: 6px; }
+
+.smak-skills-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 0.5rem; }
+.smak-skills-table th { text-align: left; font-size: 12px; font-weight: 500; color: #888; padding: 8px 10px; background: #f9f9f9; border-bottom: 1px solid #e5e5e5; }
+.smak-skills-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: middle; }
+.smak-skills-table tr:last-child td { border-bottom: none; }
+.smak-center { text-align: center; }
+
+.smak-footer { margin-top: 1.5rem; }
+.smak-note-spaced { margin-top: 8px; }
+
+.smak-tip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    color: #555;
+    font-size: 10px;
+    font-weight: 500;
+    cursor: help;
+    margin-left: 4px;
+    vertical-align: middle;
+    line-height: 1;
+}
