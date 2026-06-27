@@ -49,7 +49,9 @@ function smak_sanitize_settings( $input ) {
     $clean['search']   = in_array( isset( $input['search'] )   ? $input['search']   : '', $allowed_signal, true ) ? $input['search']   : 'yes';
     $clean['ai_input'] = in_array( isset( $input['ai_input'] ) ? $input['ai_input'] : '', $allowed_signal, true ) ? $input['ai_input'] : 'no';
 
-    $clean['api_extra_endpoint'] = esc_url_raw( isset( $input['api_extra_endpoint'] ) ? $input['api_extra_endpoint'] : '' );
+    $raw_endpoints = isset( $input['api_extra_endpoints'] ) ? $input['api_extra_endpoints'] : '';
+    $lines = array_filter( array_map( 'trim', explode( "\n", $raw_endpoints ) ) );
+    $clean['api_extra_endpoints'] = array_values( array_map( 'esc_url_raw', $lines ) );
     $clean['mcp_version']        = sanitize_text_field( isset( $input['mcp_version'] ) ? $input['mcp_version'] : '' );
     $clean['mcp_contact']        = sanitize_email( isset( $input['mcp_contact'] ) ? $input['mcp_contact'] : '' );
 
@@ -176,15 +178,21 @@ function smak_render_settings() {
                 </div>
                 <p class="smak-desc">Served at <code>/.well-known/api-catalog</code> &middot; Built from your REST API and sitemap automatically.</p>
                 <label>
-                    Additional endpoint <span class="smak-optional">(optional)</span>
-                    <span class="smak-tip" title="An additional URL to include in the API catalog, such as an RSS feed or custom endpoint. Leave blank if not needed.">?</span>
+                    Additional endpoints <span class="smak-optional">(optional — one URL per line)</span>
+                    <span class="smak-tip" title="Additional URLs to include in the API catalog, such as an RSS feed or custom endpoint. Enter one URL per line.">?</span>
                 </label>
                 <div class="smak-label-gap"></div>
-                <input type="url"
-                    name="smak_settings[api_extra_endpoint]"
-                    value="<?php echo esc_attr( isset( $opts['api_extra_endpoint'] ) ? $opts['api_extra_endpoint'] : '' ); ?>"
-                    placeholder="<?php echo esc_attr( $site_url ); ?>/feed/"
-                    class="smak-input-wide">
+                <?php
+                $extra_endpoints = isset( $opts['api_extra_endpoints'] ) ? $opts['api_extra_endpoints'] : array();
+                if ( ! is_array( $extra_endpoints ) ) {
+                    $extra_endpoints = array_filter( array( $extra_endpoints ) );
+                }
+                ?>
+                <textarea
+                    name="smak_settings[api_extra_endpoints]"
+                    placeholder="<?php echo esc_attr( $site_url ); ?>/feed/&#10;<?php echo esc_attr( $site_url ); ?>/posts-sitemap.xml"
+                    class="smak-input-wide"
+                    rows="4"><?php echo esc_textarea( implode( "\n", $extra_endpoints ) ); ?></textarea>
             </div>
 
             <div class="smak-section">

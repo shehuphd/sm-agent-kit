@@ -112,9 +112,14 @@ add_action( 'template_redirect', function () {
             );
         }
 
-        $extra = smak_opt( 'api_extra_endpoint', '' );
-        if ( $extra ) {
-            $items[] = array( 'href' => esc_url( $extra ), 'type' => 'application/json' );
+        $extra_endpoints = smak_opt( 'api_extra_endpoints', array() );
+        if ( ! is_array( $extra_endpoints ) ) {
+            $extra_endpoints = array_filter( array( $extra_endpoints ) );
+        }
+        foreach ( $extra_endpoints as $extra ) {
+            if ( $extra ) {
+                $items[] = array( 'href' => esc_url_raw( $extra ), 'type' => 'application/json' );
+            }
         }
 
         echo wp_json_encode( array(
