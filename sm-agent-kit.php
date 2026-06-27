@@ -39,7 +39,7 @@ function smak_opt( $key, $default = '' ) {
 add_action( 'template_redirect', function () {
     if ( ! smak_opt( 'markdown_enabled', 0 ) ) return;
 
-    $accept = isset( $_SERVER['HTTP_ACCEPT'] ) ? $_SERVER['HTTP_ACCEPT'] : '';
+    $accept = isset( $_SERVER['HTTP_ACCEPT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_ACCEPT'] ) ) : '';
     if ( strpos( $accept, 'text/markdown' ) === false ) return;
     if ( ! is_singular() ) return;
 
@@ -48,8 +48,10 @@ add_action( 'template_redirect', function () {
 
     header( 'Content-Type: text/markdown; charset=utf-8' );
     header( 'x-markdown-tokens: 1' );
-    echo '# ' . wp_strip_all_tags( $post->post_title ) . "\n\n";
-    echo wp_strip_all_tags( apply_filters( 'the_content', $post->post_content ) );
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- applying core filter, not registering one
+    $content = apply_filters( 'the_content', $post->post_content );
+    echo '# ' . wp_kses( $post->post_title, array() ) . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- text/markdown response, not HTML
+    echo wp_kses( $content, array() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- text/markdown response, not HTML
     exit;
 } );
 

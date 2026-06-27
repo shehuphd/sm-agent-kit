@@ -1,6 +1,6 @@
 === SM Agent Kit ===
 Contributors: shehuphd
-Tags: ai, agents, mcp, well-known, markdown, robots, agentic, llm
+Tags: ai, agents, mcp, markdown, agentic
 Requires at least: 6.0
 Tested up to: 7.0
 Requires PHP: 7.4
@@ -8,7 +8,7 @@ Stable tag: 1.8
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Make your WordPress site readable and discoverable by AI agents. Markdown negotiation, content signals, and well-known JSON endpoints with a clean admin UI.
+Make your WordPress site readable by AI agents. Markdown negotiation, content signals, and well-known JSON endpoints with a clean admin UI.
 
 == Description ==
 
