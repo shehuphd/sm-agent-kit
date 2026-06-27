@@ -23,7 +23,7 @@ if ( is_admin() ) {
         require_once $smak_settings_file;
     } else {
         add_action( 'admin_notices', function () {
-            echo '<div class="notice notice-error"><p><strong>SM Agent Kit:</strong> settings.php not found. Please reinstall the plugin.</p></div>';
+            echo wp_kses_post( '<div class="notice notice-error"><p><strong>SM Agent Kit:</strong> settings.php not found. Please reinstall the plugin.</p></div>' );
         } );
     }
 }
@@ -48,10 +48,8 @@ add_action( 'template_redirect', function () {
 
     header( 'Content-Type: text/markdown; charset=utf-8' );
     header( 'x-markdown-tokens: 1' );
-    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- applying core filter, not registering one
-    $content = apply_filters( 'the_content', $post->post_content );
-    echo '# ' . wp_kses( $post->post_title, array() ) . "\n\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- text/markdown response, not HTML
-    echo wp_kses( $content, array() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- text/markdown response, not HTML
+    echo '# ' . esc_html( $post->post_title ) . "\n\n";
+    echo esc_html( wp_strip_all_tags( $post->post_content ) );
     exit;
 } );
 
