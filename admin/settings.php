@@ -94,7 +94,7 @@ function smak_render_settings() {
     <div class="wrap smak-wrap">
 
         <div class="smak-header">
-            <p class="smak-version">SM Agent Kit &middot; v<?php echo SMAK_VERSION; ?></p>
+            <p class="smak-version">SM Agent Kit &middot; v<?php echo esc_html( SMAK_VERSION ); ?></p>
             <h1>Agent Readiness Settings</h1>
         </div>
 
@@ -103,13 +103,13 @@ function smak_render_settings() {
         <div class="smak-status-row">
             <div class="smak-status-card">
                 <p class="smak-status-label">Markdown negotiation</p>
-                <p class="smak-status-value <?php echo $markdown_on ? 'active' : 'inactive'; ?>">
+                <p class="smak-status-value <?php echo esc_attr( $markdown_on ? 'active' : 'inactive' ); ?>">
                     <?php echo $markdown_on ? '&#10003; Active' : '&#8212; Inactive'; ?>
                 </p>
             </div>
             <div class="smak-status-card">
                 <p class="smak-status-label">Content signals</p>
-                <p class="smak-status-value <?php echo $signals_on ? 'active' : 'inactive'; ?>">
+                <p class="smak-status-value <?php echo esc_attr( $signals_on ? 'active' : 'inactive' ); ?>">
                     <?php echo $signals_on ? '&#10003; Active' : '&#8212; Inactive'; ?>
                 </p>
             </div>
@@ -119,7 +119,7 @@ function smak_render_settings() {
             </div>
             <div class="smak-status-card">
                 <p class="smak-status-label">Agentic commerce</p>
-                <p class="smak-status-value <?php echo class_exists( 'WooCommerce' ) ? ( $commerce_on ? 'active' : 'inactive' ) : 'inactive'; ?>">
+                <p class="smak-status-value <?php echo esc_attr( class_exists( 'WooCommerce' ) ? ( $commerce_on ? 'active' : 'inactive' ) : 'inactive' ); ?>">
                     <?php
                     if ( ! class_exists( 'WooCommerce' ) ) {
                         echo '&#8212; No WooCommerce';

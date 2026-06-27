@@ -46,12 +46,10 @@ add_action( 'template_redirect', function () {
     $post = get_queried_object();
     if ( ! $post instanceof WP_Post ) return;
 
-    $markdown  = '# ' . $post->post_title . "\n\n";
-    $markdown .= wp_strip_all_tags( apply_filters( 'the_content', $post->post_content ) );
-
     header( 'Content-Type: text/markdown; charset=utf-8' );
     header( 'x-markdown-tokens: 1' );
-    echo $markdown;
+    echo '# ' . wp_strip_all_tags( $post->post_title ) . "\n\n";
+    echo wp_strip_all_tags( apply_filters( 'the_content', $post->post_content ) );
     exit;
 } );
 
@@ -64,7 +62,7 @@ add_action( 'do_robotstxt', function () {
     $search = smak_opt( 'search',   'yes' );
     $input  = smak_opt( 'ai_input', 'no' );
 
-    echo "Content-Signal: ai-train={$train}, search={$search}, ai-input={$input}\n";
+    echo 'Content-Signal: ai-train=' . esc_attr( $train ) . ', search=' . esc_attr( $search ) . ', ai-input=' . esc_attr( $input ) . "\n";
 } );
 
 // ─── Rewrite rules for well-known endpoints ───────────────────────────────────
@@ -119,7 +117,7 @@ add_action( 'template_redirect', function () {
             $items[] = array( 'href' => esc_url( $extra ), 'type' => 'application/json' );
         }
 
-        echo json_encode( array(
+        echo wp_json_encode( array(
             'linkset' => array( array(
                 'anchor'      => $site_url,
                 'service-doc' => array( array( 'href' => $rest_url ) ),
@@ -150,7 +148,7 @@ add_action( 'template_redirect', function () {
             $card['contact'] = sanitize_email( $contact );
         }
 
-        echo json_encode( $card, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
+        echo wp_json_encode( $card, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
 
     } elseif ( $endpoint === 'agent-skills' ) {
 
@@ -176,7 +174,7 @@ add_action( 'template_redirect', function () {
             );
         }
 
-        echo json_encode( array(
+        echo wp_json_encode( array(
             '$schema' => 'https://agentskills.io/schema/v0.2.0',
             'name'    => $site_name,
             'skills'  => $skills,
@@ -185,7 +183,7 @@ add_action( 'template_redirect', function () {
     } elseif ( $endpoint === 'product-feed' ) {
 
         if ( ! smak_opt( 'commerce_enabled', 0 ) || ! class_exists( 'WooCommerce' ) ) {
-            echo json_encode( array(
+            echo wp_json_encode( array(
                 'name'     => $site_name,
                 'products' => array(),
                 'note'     => 'No commerce data available for this site.',
@@ -213,7 +211,7 @@ add_action( 'template_redirect', function () {
             );
         }
 
-        echo json_encode( array(
+        echo wp_json_encode( array(
             'schema'   => 'https://agenticcommerce.dev/schema/product-feed/v1',
             'name'     => $site_name,
             'currency' => $currency,
@@ -224,7 +222,7 @@ add_action( 'template_redirect', function () {
 
         $status = smak_opt( 'transactable_status', 'none' );
 
-        echo json_encode( array(
+        echo wp_json_encode( array(
             'name'         => $site_name,
             'description'  => $site_desc,
             'capabilities' => array(
@@ -240,7 +238,7 @@ add_action( 'template_redirect', function () {
 
         $status = smak_opt( 'transactable_status', 'none' );
 
-        echo json_encode( array(
+        echo wp_json_encode( array(
             'protocol_version' => '2025-09-29',
             'name'             => $site_name,
             'status'           => $status,
@@ -264,7 +262,7 @@ add_action( 'template_redirect', function () {
 
         if ( $status !== 'live' ) {
             status_header( 501 );
-            echo json_encode( array(
+            echo wp_json_encode( array(
                 'error'   => 'not_implemented',
                 'status'  => $status,
                 'message' => 'This site does not currently accept agent-initiated checkout. Catalog data is available at the product feed endpoint.',
@@ -276,7 +274,7 @@ add_action( 'template_redirect', function () {
         // When ready, this is where session creation, payment token handling,
         // and order confirmation would be wired to your payment service provider.
         status_header( 501 );
-        echo json_encode( array(
+        echo wp_json_encode( array(
             'error'   => 'not_implemented',
             'message' => 'Live checkout is marked active but no payment provider is wired up yet.',
         ), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES );
